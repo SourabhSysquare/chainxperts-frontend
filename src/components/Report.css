@@ -1,0 +1,22 @@
+/* src/components/Report.css */
+.report-container {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.report-container .MuiTypography-h4 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.report-container .report-content {
+    white-space: pre-wrap;
+    /* Preserve whitespace and line breaks */
+}
+
+.report-container .MuiButton-root {
+    margin-right: 10px;
+}

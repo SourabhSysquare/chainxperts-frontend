@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../redux/store';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
 import { Box, Typography } from '@mui/material';
 import './LoginPage.css';
@@ -10,12 +11,14 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // Hook for navigation
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/login`, { email, password });
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/login`, { emailId: email, password });
             dispatch(setToken(response.data.token));
+            navigate('/question'); // Redirect to question page after successful login
         } catch (error) {
             console.error('Login failed', error);
         }
