@@ -11,14 +11,14 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/login`, { emailId: email, password });
-            dispatch(setToken(response.data.token));
-            navigate('/question'); // Redirect to question page after successful login
+            dispatch(setToken(response.data.JWT));
+            navigate('/question');
         } catch (error) {
             console.error('Login failed', error);
         }
