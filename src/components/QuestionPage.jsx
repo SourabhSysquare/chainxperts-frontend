@@ -53,7 +53,7 @@ const QuestionPage = () => {
                 const transcript = Array.from(event.results)
                     .map(result => result.isFinal ? result[0].transcript + '. ' : result[0].transcript)
                     .join('');
-                setQuestionState(prev => prev + transcript);
+                setQuestionState(prev => transcript);
             };
 
             speechRecognitionRef.current.onerror = event => {
