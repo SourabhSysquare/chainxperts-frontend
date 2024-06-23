@@ -8,3 +8,25 @@
 button {
     margin-top: 10px;
 }
+
+.backButton {
+    width: 30% !important;
+}
+
+.logout-button {
+    width: 30% !important;
+    float: right;
+}
+
+@media (min-width: 576px) {
+    .container {
+        margin-top: 10%;
+        max-width: 70% !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .backButton {
+        width: 50% !important;
+    }
+}

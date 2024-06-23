@@ -1,5 +1,5 @@
 .container {
-    background-color: #fff;
+    background-color: #c1ecf9a7 !important;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -7,4 +7,11 @@
 
 button {
     margin-top: 10px;
+}
+
+@media (min-width: 576px) {
+    .container {
+        margin-top: 10%;
+        max-width: 500px !important;
+    }
 }

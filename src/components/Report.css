@@ -1,22 +1,25 @@
-/* src/components/Report.css */
 .report-container {
-    margin-top: 50px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
 }
 
-.report-container .MuiTypography-h4 {
-    margin-bottom: 20px;
-    text-align: center;
+.report-content {
+    margin-top: 2rem;
 }
 
-.report-container .report-content {
-    white-space: pre-wrap;
-    /* Preserve whitespace and line breaks */
+.report-item {
+    margin-bottom: 2rem;
 }
 
-.report-container .MuiButton-root {
-    margin-right: 10px;
+
+.download-button {
+    margin-left: 10px;
+}
+
+.backButton {
+    width: 30% !important;
+}
+
+.logout-button {
+    width: 30% !important;
+    float: right;
 }

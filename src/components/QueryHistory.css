@@ -19,7 +19,22 @@
 }
 
 .query-table {
+    padding: 3rem !important;
     min-width: 650px;
+}
+
+.backButton {
+    width: 30% !important;
+}
+
+.logout-button {
+    width: 30% !important;
+    float: right;
+}
+
+.refresh-button {
+    width: 10% !important;
+    float: right;
 }
 
 @media (max-width: 768px) {

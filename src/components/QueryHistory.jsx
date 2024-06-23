@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { clearQuestion, clearToken, setQuestion } from '../redux/store';
 import { useNavigate } from 'react-router-dom';
-import { Container, Box, Typography, Paper, Button, Table, TableHead, TableBody, TableRow, TableCell, IconButton } from '@mui/material';
+import { Button } from "reactstrap";
+import { Container, Box, Typography, Paper, Table, TableHead, TableBody, TableRow, TableCell, IconButton } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -21,7 +22,7 @@ const QueryHistoryPage = () => {
                 { token },
             );
             const data = response.data?.data
-            setQueries(data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+            setQueries(data?.filter(e => e.title).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
         } catch (error) {
             console.error('Failed to fetch query history', error);
         }
@@ -42,45 +43,45 @@ const QueryHistoryPage = () => {
 
     return (
         <Container className="container">
+            <Box mt={3}>
+                <Button
+                    variant="contained"
+                    className='backButton'
+                    color="info"
+                    startIcon={<ArrowBackIcon />}
+                    onClick={() => {
+                        dispatch(clearQuestion())
+                        navigate('/question')
+                    }}
+                >
+                    Report Generation
+                </Button>
+                <Button
+                    className='backButton'
+                    color='danger'
+                    variant="contained"
+                    startIcon={<ExitToAppIcon />}
+                    onClick={handleLogout}
+                >
+                    Logout
+                </Button>
+                <IconButton
+                    className='refresh-button'
+                    color="primary" onClick={fetchQueries}>
+                    <RefreshIcon />
+                </IconButton>
+            </Box>
             <Paper className="history-container" elevation={3}>
-                <Box mt={3} display="flex" justifyContent="space-between" alignItems="center">
-                    <Typography variant="h4" component="h1">
-                        Query History
-                    </Typography>
-                    <div>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            startIcon={<ArrowBackIcon />}
-                            onClick={() => {
-                                dispatch(clearQuestion())
-                                navigate('/question')
-                            }}
-                            style={{ marginRight: '10px' }}
-                        >
-                            Back to Question
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            startIcon={<ExitToAppIcon />}
-                            onClick={handleLogout}
-                            style={{ marginRight: '10px' }}
-                        >
-                            Logout
-                        </Button>
-                        <IconButton color="primary" onClick={fetchQueries}>
-                            <RefreshIcon />
-                        </IconButton>
-                    </div>
-                </Box>
+                <Typography variant="h4" component="h1">
+                    Query History
+                </Typography>
                 <Table className="query-table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Created At</TableCell>
                             <TableCell>Title</TableCell>
                             <TableCell>Prompt</TableCell>
-                            <TableCell>Action</TableCell>
+                            <TableCell>Generate Report</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -95,7 +96,7 @@ const QueryHistoryPage = () => {
                                         color="primary"
                                         onClick={() => handleUseQuery(query.prompt)}
                                     >
-                                        Use
+                                        Run
                                     </Button>
                                 </TableCell>
                             </TableRow>
@@ -103,7 +104,7 @@ const QueryHistoryPage = () => {
                     </TableBody>
                 </Table>
             </Paper>
-        </Container>
+        </Container >
     );
 };
 

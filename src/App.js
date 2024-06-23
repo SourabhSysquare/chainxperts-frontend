@@ -17,7 +17,9 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        {/* <Route path="/question" element={<QuestionPage />} /> */}
         <Route path="/question" element={<ProtectedRoute component={QuestionPage} />} />
+        {/* <Route path="/history" element={<QueryHistoryPage />} /> */}
         <Route path="/history" element={<ProtectedRoute component={QueryHistoryPage} />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>

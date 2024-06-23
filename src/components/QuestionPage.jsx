@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { Button, Form, FormGroup, Label, Input, Container, Spinner } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Container, Spinner } from 'reactstrap';
 import { Box, Typography, IconButton } from '@mui/material';
 import MicIcon from '@mui/icons-material/Mic';
 import MicOffIcon from '@mui/icons-material/MicOff';
@@ -94,9 +94,9 @@ const QuestionPage = () => {
                 `${process.env.REACT_APP_BE_SERVICE_URL}/prompt`,
                 { prompt: question, token: token },
             );
-            setReport(response.data?.message);
+            setReport({ data: response.data?.data, title: response.data?.topic });
         } catch (error) {
-            console.error('Question submission failed', error);
+            console.error('Question submission failed', error)
         } finally {
             setLoading(false);
         }
@@ -105,35 +105,33 @@ const QuestionPage = () => {
     return (
         <Container className="container">
             {!report ? (
-                <Box mt={5}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<ArrowBackIcon />}
-                        onClick={() => {
-                            navigate('/history');
-                        }}
-                    >
-                        Back to QueryPage
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<ExitToAppIcon />}
-                        onClick={() => dispatch(clearToken())
-                        }
-                    >
-                        Logout
-                    </Button>
+                <Box>
+                    <Box mb={4}>
+                        <Button
+                            className='backButton'
+                            color="info"
+                            startIcon={<ArrowBackIcon />}
+                            onClick={() => {
+                                navigate('/history');
+                            }}
+                        >
+                            Query Logs
+                        </Button>
+                        <Button
+                            color="danger"
+                            className='logout-button'
+                            startIcon={<ExitToAppIcon />}
+                            onClick={() => dispatch(clearToken())
+                            }
+                        >
+                            Logout
+                        </Button>
+                    </Box>
                     <Typography variant="h4" component="h1" gutterBottom>
-                        Submit Your Queries
-                    </Typography>
-                    <Typography variant="subtitle1" color="secondary">
-                        {micStatus}
+                        Submit Your Queries to Generate Report
                     </Typography>
                     <Form onSubmit={handleSubmit}>
                         <FormGroup>
-                            <Label for="question">Problem</Label>
                             <Input
                                 type="textarea"
                                 name="question"
@@ -141,15 +139,24 @@ const QuestionPage = () => {
                                 value={question}
                                 onChange={(e) => setQuestionState(e.target.value)}
                                 required
-                                placeholder="Write your question here"
+                                placeholder="Please Create a report for"
                             />
-                            <IconButton onClick={toggleListening} color="primary">
-                                {listening ? <MicOffIcon /> : <MicIcon />}
-                            </IconButton>
+                            <Box mt={5}>
+                                <IconButton
+                                    className='backButton'
+                                    onClick={toggleListening} color="primary">
+                                    {listening ? <MicOffIcon /> : <MicIcon />}
+                                    <Typography variant="subtitle1" color="secondary">
+                                        {micStatus}
+                                    </Typography>
+                                </IconButton>
+                                <Button
+                                    className='logout-button'
+                                    color="success" type="submit" disabled={loading}>
+                                    {loading ? <Spinner size="sm" /> : 'Submit'}
+                                </Button>
+                            </Box>
                         </FormGroup>
-                        <Button color="primary" type="submit" disabled={loading}>
-                            {loading ? <Spinner size="sm" /> : 'Submit'}
-                        </Button>
                     </Form>
                 </Box>
             ) : (
