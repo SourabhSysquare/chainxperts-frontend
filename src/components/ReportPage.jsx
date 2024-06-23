@@ -22,7 +22,7 @@ const Report = ({ report, handleReset }) => {
                         startIcon={<ArrowBackIcon />}
                         onClick={handleReset}
                     >
-                        Back
+                        Back to QueryPage
                     </Button>
                     <IconButton color="primary" onClick={handleDownloadPDF}>
                         <DownloadIcon />

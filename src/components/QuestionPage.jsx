@@ -1,21 +1,35 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Button, Form, FormGroup, Label, Input, Container, Spinner } from 'reactstrap';
 import { Box, Typography, IconButton } from '@mui/material';
 import MicIcon from '@mui/icons-material/Mic';
 import MicOffIcon from '@mui/icons-material/MicOff';
 import Report from './ReportPage';
+import { clearToken, setQuestion } from '../redux/store';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import './QuestionPage.css';
+import { useNavigate } from 'react-router-dom';
 
 const QuestionPage = () => {
-    const [question, setQuestion] = useState('');
+    const [question, setQuestionState] = useState('');
     const [loading, setLoading] = useState(false);
     const [report, setReport] = useState(null);
     const [listening, setListening] = useState(false);
     const [micStatus, setMicStatus] = useState('Microphone is off');
     const token = useSelector(state => state.auth.token);
+    const reduxQuestion = useSelector(state => state.auth.question);
+    const dispatch = useDispatch();
     const speechRecognitionRef = useRef(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (reduxQuestion) {
+            setQuestionState(reduxQuestion);
+            handleSubmit();
+        }
+    }, [reduxQuestion]);
 
     useEffect(() => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -39,7 +53,7 @@ const QuestionPage = () => {
                 const transcript = Array.from(event.results)
                     .map(result => result.isFinal ? result[0].transcript + '. ' : result[0].transcript)
                     .join('');
-                setQuestion(prev => prev + transcript);
+                setQuestionState(prev => prev + transcript);
             };
 
             speechRecognitionRef.current.onerror = event => {
@@ -53,9 +67,10 @@ const QuestionPage = () => {
     }, []);
 
     const handleReset = () => {
-        setQuestion('');
+        setQuestionState('');
         setReport(null);
         setMicStatus('Microphone is off');
+        dispatch(setQuestion(''));
     };
 
     const toggleListening = () => {
@@ -72,13 +87,12 @@ const QuestionPage = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         setLoading(true);
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_BE_SERVICE_URL}/generate/prompt`,
+                `${process.env.REACT_APP_BE_SERVICE_URL}/prompt`,
                 { prompt: question, token: token },
-                // { headers: { Authorization: `Bearer ${token}` } }
             );
             setReport(response.data?.message);
         } catch (error) {
@@ -92,6 +106,25 @@ const QuestionPage = () => {
         <Container className="container">
             {!report ? (
                 <Box mt={5}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<ArrowBackIcon />}
+                        onClick={() => {
+                            navigate('/history');
+                        }}
+                    >
+                        Back to QueryPage
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<ExitToAppIcon />}
+                        onClick={() => dispatch(clearToken())
+                        }
+                    >
+                        Logout
+                    </Button>
                     <Typography variant="h4" component="h1" gutterBottom>
                         Submit Your Queries
                     </Typography>
@@ -106,7 +139,7 @@ const QuestionPage = () => {
                                 name="question"
                                 id="question"
                                 value={question}
-                                onChange={(e) => setQuestion(e.target.value)}
+                                onChange={(e) => setQuestionState(e.target.value)}
                                 required
                                 placeholder="Write your question here"
                             />
