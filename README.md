@@ -1,71 +1,159 @@
-# Getting Started with Create React App
+# Integration of Generative AI for Prompt-Based Report Delivery in an Accounting Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This project integrates Generative AI (Gen-AI) into an accounting platform to enable prompt-based report delivery. Users can generate customized reports using natural language queries. The system ensures data privacy by restricting data access to authorized users only. The project consists of three main components: Frontend, ServiceLayer, and DBLayer.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **User Authentication:** Secure login page for users.
+- **Report Generation:** Generate customized reports using natural language or voice queries.
+- **Report History:** View history of generated reports.
+- **Download Reports:** Users can download the generated reports.
+- **Data Privacy:** Ensures data access is restricted to authorized users only.
+- **Comprehensive Testing:** Includes tests to cover all major functionalities and edge cases.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Project Structure
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+.
+├── Frontend
+│ ├── src
+│ ├── public
+│ ├── package.json
+│ ├── README.md
+│ └── ...
+├── ServiceLayer
+│ ├── src
+│ ├── package.json
+│ ├── README.md
+│ └── ...
+├── DBLayer
+│ ├── src
+│ ├── package.json
+│ ├── README.md
+│ └── ...
+├── README.md
+└── ...
 
-### `npm test`
+markdown
+Copy code
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Frontend
 
-### `npm run build`
+The frontend application, built with React, allows users to log in, generate reports, and view the history of generated reports. Reports can be generated using both text and voice queries and can be downloaded.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Key Features:
+- Login Page
+- Generate Report Page
+- Report History Page
+- Voice-Based Report Generation
+- Download Reports
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### ServiceLayer
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The service layer, built with Node.js, acts as an intermediary between the frontend and the Gen-AI model. It processes user queries, interacts with the Gen-AI model, and retrieves the required data from the database.
 
-### `npm run eject`
+#### Key Features:
+- Query Processing
+- Interaction with Gen-AI Model
+- Data Retrieval and Filtering
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### DBLayer
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The database layer, built with Spring Boot and PostgreSQL, ensures secure storage and retrieval of data. It supports multiple microservices to interact with the database securely.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### Key Features:
+- Secure Data Storage
+- Data Retrieval Services
+- Microservices Architecture
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Getting Started
 
-## Learn More
+### Prerequisites
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Node.js
+- npm or yarn
+- Java (for Spring Boot)
+- PostgreSQL
+- Docker (optional, for containerization)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Installation
 
-### Code Splitting
+1. Clone the repository:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+bash
+git clone https://github.com/yourusername/your-repo.git
+cd your-repo
+Install dependencies for each component:
+bash
+Copy code
+# Frontend
+cd Frontend
+npm install
 
-### Analyzing the Bundle Size
+# ServiceLayer
+cd ../ServiceLayer
+npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# DBLayer
+cd ../DBLayer
+./mvnw install
+Set up the PostgreSQL database:
+sql
+Copy code
+CREATE DATABASE yourdatabase;
+CREATE USER youruser WITH ENCRYPTED PASSWORD 'yourpassword';
+GRANT ALL PRIVILEGES ON DATABASE yourdatabase TO youruser;
+Update the application.properties file in DBLayer/src/main/resources with your PostgreSQL configurations.
 
-### Making a Progressive Web App
+Running the Application
+Start the database layer:
+bash
+Copy code
+cd DBLayer
+./mvnw spring-boot:run
+Start the service layer:
+bash
+Copy code
+cd ../ServiceLayer
+npm start
+Start the frontend application:
+bash
+Copy code
+cd ../Frontend
+npm start
+Testing
+Run the tests for each component to ensure everything is working correctly:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+bash
+Copy code
+# Frontend
+cd Frontend
+npm test
 
-### Advanced Configuration
+# ServiceLayer
+cd ../ServiceLayer
+npm test
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+# DBLayer
+cd ../DBLayer
+./mvnw test
+Deployment
 
-### Deployment
+Include deployment instructions here, whether it's on a cloud service, a specific server, or using Docker.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Contributing
 
-### `npm run build` fails to minify
+We welcome contributions to enhance the functionality and fix any issues. Please follow the standard guidelines for submitting pull requests.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# chainxperts-frontend
+License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+Contact
+
+For any questions or inquiries, please contact us at:
+
+Email: hackathon@formidium.com
+Address: J-5 and J-15, Ajmer Rd, J Block, Tagore Nagar, Jaipur, Rajasthan, 302021
+©2024 by Formidium Corp. All rights reserved.

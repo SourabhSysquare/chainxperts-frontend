@@ -12,6 +12,7 @@
 
 
 .download-button {
+    width: 30% !important;
     margin-left: 10px;
 }
 
